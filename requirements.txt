@@ -1,0 +1,4 @@
+questdb
+numpy
+pyarrow
+psycopg
