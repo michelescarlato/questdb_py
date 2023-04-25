@@ -12,7 +12,7 @@ import pandas as pd
 #import pyarrow
 from questdb.ingress import Sender
 
-def load_data(url, csv_dir, epoch, secs_interval):
+def load_data(url, csv_dir, epoch, secs_interval, table):
     currentTime = datetime.utcnow()
     print(currentTime)
     while epoch < currentTime:
@@ -25,13 +25,13 @@ def load_data(url, csv_dir, epoch, secs_interval):
                 csv_filename = csv_dir + str(dir) + '/' + str(file) + ".csv"
                 if epoch > currentTime:
                     return epoch
-                epoch = write_csv_data_to_db_250_values(csv_filename, url, epoch, secs_interval, currentTime)
+                epoch = write_csv_data_to_db_250_values(csv_filename, url, epoch, secs_interval, currentTime, table)
                 file = file + 1
             dir = dir + 1
     logging.info('Last data inserted at time _ epoch inside load data: ' + str(epoch))
     print(epoch)
     return epoch
-def write_csv_data_to_db_250_values(csv_file, url, new_epoch, secs_interval, currentTime):
+def write_csv_data_to_db_250_values(csv_file, url, new_epoch, secs_interval, currentTime, table):
     data = pd.read_csv(csv_file, sep=',')
     # take the first 250 values
     first_column = data.iloc[:,0]
@@ -46,14 +46,14 @@ def write_csv_data_to_db_250_values(csv_file, url, new_epoch, secs_interval, cur
         first_column.iat[row_index] = new_epoch#, tz='UTC')
         row_index = row_index + 1
     result = pd.concat([first_column, second_n_column,third_column], axis=1)
-    write_db_bulk(result)
+    write_db_bulk(result, table)
     return new_epoch
 
-def write_db_bulk(data):
+def write_db_bulk(data, table):
     # questdb accepts datetime64 nanoseconds format
     data["timems"] = data["timems"].astype("datetime64[ns]")
     with Sender('localhost', 9009) as sender:
-        sender.dataframe(data, table_name='sensors_data')#, at='timems')
+        sender.dataframe(data, table_name=table)#, at='timems')
 
     global points_inserted_count
     points_inserted_count = points_inserted_count + len(data.index)
@@ -77,11 +77,11 @@ start = time.time()
 points_inserted_count = 0
 epoch = datetime.utcnow() - timedelta(days=30)
 
-url, secs_interval = read_conf.read_conf(file_name)
+url, secs_interval,table = read_conf.read_conf_insert_data(file_name)
 csv_dir = 'CSV_machine_data/'
 
 # load the CSVs and get the last recorded time inserted
-time_end = load_data(url, csv_dir, epoch, secs_interval)
+time_end = load_data(url, csv_dir, epoch, secs_interval, table)
 print('Last data inserted at time: '+str(time_end))
 logging.info('Last data inserted at time: '+str(time_end))
 print("Total number of points inserted:" + str(points_inserted_count))
