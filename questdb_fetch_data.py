@@ -10,7 +10,7 @@ with pg.connect(conn_str, autocommit=True) as connection:
     with connection.cursor() as cur:
         # Query the database and obtain data as Python objects.
 
-        cur.execute('SELECT * FROM sensors;')
+        cur.execute('SELECT * FROM sensors_data WHERE timems BETWEEN \'2023-03-29T00:00:23.000000Z\' AND \'2023-04-25T00:00:23.500000Z\';')
         records = cur.fetchall()
         for row in records:
             print(row)
