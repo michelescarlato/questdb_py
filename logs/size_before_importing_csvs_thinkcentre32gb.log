@@ -1,0 +1,24 @@
+84	./conf
+2848	./public/assets/vs/editor
+192	./public/assets/vs/base/worker
+68	./public/assets/vs/base/browser/ui/codicons/codicon
+68	./public/assets/vs/base/browser/ui/codicons
+68	./public/assets/vs/base/browser/ui
+68	./public/assets/vs/base/browser
+260	./public/assets/vs/base
+3144	./public/assets/vs
+3172	./public/assets
+5004	./public
+2128	./db/sys.column_versions_purge_log
+49152	./db/telemetry/default
+49208	./db/telemetry
+56	./db/sys.telemetry_wal
+81920	./db/telemetry_config/default
+85088	./db/telemetry_config
+136496	./db
+141584	.
+
+
+
+
+
