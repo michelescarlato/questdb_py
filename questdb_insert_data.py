@@ -77,7 +77,7 @@ start = time.time()
 points_inserted_count = 0
 epoch = datetime.utcnow() - timedelta(days=30)
 
-url, secs_interval,table = read_conf.read_conf_insert_data(file_name)
+url, secs_interval,table, dbname = read_conf.read_conf_insert_data(file_name)
 csv_dir = 'CSV_machine_data/'
 
 # load the CSVs and get the last recorded time inserted
