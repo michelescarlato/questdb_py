@@ -1,0 +1,2 @@
+INFO:root:Total time elapsed (hh:mm:ss): 0:00:01
+INFO:root:Query executed: SELECT m001_abs_good FROM sensors_data WHERE timems BETWEEN '2023-03-29T00:00:23.000000Z' AND '2023-04-25T00:00:23.500000Z';
