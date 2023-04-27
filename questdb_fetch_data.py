@@ -23,7 +23,7 @@ with pg.connect(conn_str, autocommit=True) as connection:
     # Open a cursor to perform database operations
     with connection.cursor() as cur:
         # Query the database and obtain data as Python objects.
-        cur.execute(f'SELECT * FROM {table} WHERE timems BETWEEN \'2023-03-29T00:00:23.000000Z\' AND \'2023-04-25T00:00:23.500000Z\';')
+        cur.execute(f'SELECT m001_abs_good FROM {table} WHERE timems BETWEEN \'2023-03-29T00:00:23.000000Z\' AND \'2023-04-25T00:00:23.500000Z\';')
         records = cur.fetchall()
 
 # the connection is now closed
