@@ -17,13 +17,15 @@ url, user, table, dbname, password, port = read_conf.read_conf_fetch_data(file_n
 # start script temporizer
 start = time.time()
 
+query_1_sensor = f'SELECT m001_abs_good FROM {table} WHERE timems BETWEEN \'2023-03-29T00:00:23.000000Z\' AND \'2023-04-25T00:00:23.500000Z\';'
+current_query = query_1_sensor
 # Connect to an existing QuestDB instance
 conn_str = f'user={user} password={password} host={url} port={port} dbname={dbname}'
 with pg.connect(conn_str, autocommit=True) as connection:
     # Open a cursor to perform database operations
     with connection.cursor() as cur:
         # Query the database and obtain data as Python objects.
-        cur.execute(f'SELECT m001_abs_good FROM {table} WHERE timems BETWEEN \'2023-03-29T00:00:23.000000Z\' AND \'2023-04-25T00:00:23.500000Z\';')
+        cur.execute(current_query)
         records = cur.fetchall()
 
 # the connection is now closed
@@ -34,3 +36,4 @@ minutes = convert_seconds.convert_seconds(elapsed_time)
 print("Total time elapsed:")
 print(minutes)
 logging.info("Total time elapsed (hh:mm:ss): "+str(minutes))
+logging.info("Query executed: "+str(current_query))
