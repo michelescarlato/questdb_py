@@ -15,9 +15,11 @@ docker run -p 9000:9000 -p 9009:9009 -p 8812:8812 -p 9003:9003 -v "$HOME/questdb
 
 ## Install dependencies
 
-Install dependencies listed in the `requirements.txt`:
+Update `pip`, install dependencies listed in the `requirements.txt`, and install `psycopg` to prevent an error running the data fetch:
 ```bash
+pip install --upgrade pip # to upgrade pip
 pip install -r requirements.txt
+pip install "psycopg[binary,pool]"  # to install package and dependencies
 ```
 
 ## Data insertion
